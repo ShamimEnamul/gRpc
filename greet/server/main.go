@@ -1,4 +1,4 @@
-package server
+package main
 
 import (
 	"fmt"
@@ -16,16 +16,19 @@ type Server struct {
 }
 
 func main() {
-	fmt.Println("Hello World!")
+	fmt.Println("SERVER...")
 	lis, err := net.Listen("tcp", address)
 	if err != nil {
 		log.Fatal("Error occurred!")
 	}
 	log.Println("Listening on", address)
 
-	fmt.Println(lis)
+	fmt.Println(lis.Addr())
 	s := grpc.NewServer()
+	pb.RegisterGreetServiceServer(s, &Server{})
+
 	if err = s.Serve(lis); err != nil {
 		log.Fatal("Failed")
 	}
+
 }
