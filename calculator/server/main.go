@@ -13,14 +13,7 @@ import (
 const address string = "0.0.0.0:5521"
 
 type Server struct {
-	pb.GreetServiceServer
 	pb.CalculatorServiceServer
-}
-
-func (s *Server) Greet(ctx context.Context, req *pb.GreetRequest) (*pb.GreetResponse, error) {
-	log.Printf("Greet function is invoked with %v\n", req)
-	return &pb.GreetResponse{
-		Result: "Response for" + req.FirstName}, nil
 }
 
 func (s *Server) Add(ctx context.Context, req *pb.CalculateRequest) (*pb.CalculateResponse, error) {

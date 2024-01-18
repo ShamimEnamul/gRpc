@@ -12,6 +12,20 @@ message GreetResponse {
   string result = 1;
 }
 
+message CalculateRequest{
+  int32 val1 = 1;
+  int32 val2 = 2;
+}
+
+message CalculateResponse{
+  int32 sum = 1;
+}
+
+
 service GreetService {
   rpc Greet(GreetRequest) returns (GreetResponse);
+}
+
+service CalculatorService{
+  rpc Add(CalculateRequest) returns (CalculateResponse);
 }
