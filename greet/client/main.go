@@ -6,6 +6,7 @@ import (
 	pb "github.com/ShamimEnamul/grpc/greet/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"io"
 	"log"
 )
 
@@ -23,23 +24,27 @@ func doGreet(c pb.GreetServiceClient) {
 	log.Printf("Greeting: %s\n", res.Result)
 
 }
+func DoGreetManyTimes(c pb.GreetServiceClient) {
+	log.Println("DoGreetManyTimes was invoked!")
+	req := &pb.GreetRequest{FirstName: "Shamim"}
 
-func calculate(c pb.CalculatorServiceClient) {
-	log.Println("calculate was invoked")
-	res, err := c.Add(context.Background(), &pb.CalculateRequest{
-		Val1: 2,
-		Val2: 5,
-	})
+	stream, err := c.GreetManyTimes(context.Background(), req)
 
 	if err != nil {
-		{
-			log.Fatalf("Error occurred from calculate function %v\n", err)
-		}
+		log.Fatal("Error while calling GreetManyTimes %v \n", err)
 	}
 
-	log.Println(res)
-	log.Println("Sum: ", res.Sum)
+	for {
+		msg, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
 
+		if err != nil {
+			log.Fatal("Error while getting data from GreetManyTimes %v \n", err)
+		}
+		log.Printf("GreetingManyTimes %s \n", msg.Result)
+	}
 }
 
 func main() {
@@ -50,8 +55,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	//greetClient := pb.NewGreetServiceClient(conn)
-	//doGreet(greetClient)
-	calculatorClient := pb.NewCalculatorServiceClient(conn)
-	calculate(calculatorClient)
+	greetClient := pb.NewGreetServiceClient(conn)
+	DoGreetManyTimes(greetClient)
+
 }
