@@ -1,9 +1,8 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	pb "github.com/ShamimEnamul/grpc/greet/proto"
+	pb "github.com/ShamimEnamul/grpc/calculator/proto"
 	"google.golang.org/grpc"
 	_ "google.golang.org/grpc"
 	"log"
@@ -16,12 +15,6 @@ type Server struct {
 	pb.CalculatorServiceServer
 }
 
-func (s *Server) Add(ctx context.Context, req *pb.CalculateRequest) (*pb.CalculateResponse, error) {
-	log.Printf("Calculate function is invoked with %v\n", req)
-	return &pb.CalculateResponse{
-		Sum: req.Val1 + req.Val2}, nil
-}
-
 func main() {
 	fmt.Println("SERVER...")
 	lis, err := net.Listen("tcp", address)
@@ -32,7 +25,7 @@ func main() {
 
 	fmt.Println(lis.Addr())
 	s := grpc.NewServer()
-	pb.RegisterGreetServiceServer(s, &Server{})
+	pb.RegisterCalculatorServiceServer(s, &Server{})
 
 	if err = s.Serve(lis); err != nil {
 		log.Fatal("Failed to listen properly")

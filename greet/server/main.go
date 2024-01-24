@@ -14,7 +14,6 @@ const address string = "0.0.0.0:5521"
 
 type Server struct {
 	pb.GreetServiceServer
-	pb.CalculatorServiceServer
 }
 
 func (s *Server) Greet(ctx context.Context, req *pb.GreetRequest) (*pb.GreetResponse, error) {

@@ -24,8 +24,9 @@ message CalculateResponse{
 
 service GreetService {
   rpc Greet(GreetRequest) returns (GreetResponse);
+  rpc GreetManyTimes(GreetRequest) returns (stream GreetResponse);
 }
 
-service CalculatorService{
-  rpc Add(CalculateRequest) returns (CalculateResponse);
-}
+//service CalculatorService{
+//  rpc Add(CalculateRequest) returns (CalculateResponse);
+//}

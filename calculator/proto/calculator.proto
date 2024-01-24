@@ -1,20 +1,14 @@
 syntax = "proto3";
 
-package greet;
+package calculator;
 
 option go_package = "github.com/ShamimEnamul/grpc/calculator/proto";
 
 
-
-message CalculateRequest{
-  int32 val1 = 1;
-  int32 val2 = 2;
-}
-
-message CalculateResponse{
-  int32 sum = 1;
-}
+import "sum.proto";
+import "primes.proto";
 
 service CalculatorService{
-  rpc Add(CalculateRequest) returns (CalculateResponse);
+  rpc Add(SumRequest) returns (SumResponse);
+  rpc Primes(PrimeRequest) returns (stream PrimeResponse);
 }

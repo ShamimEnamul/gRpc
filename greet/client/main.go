@@ -6,7 +6,6 @@ import (
 	pb "github.com/ShamimEnamul/grpc/greet/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"io"
 	"log"
 )
 
@@ -24,28 +23,29 @@ func doGreet(c pb.GreetServiceClient) {
 	log.Printf("Greeting: %s\n", res.Result)
 
 }
-func DoGreetManyTimes(c pb.GreetServiceClient) {
-	log.Println("DoGreetManyTimes was invoked!")
-	req := &pb.GreetRequest{FirstName: "Shamim"}
 
-	stream, err := c.GreetManyTimes(context.Background(), req)
-
-	if err != nil {
-		log.Fatal("Error while calling GreetManyTimes %v \n", err)
-	}
-
-	for {
-		msg, err := stream.Recv()
-		if err == io.EOF {
-			break
-		}
-
-		if err != nil {
-			log.Fatal("Error while getting data from GreetManyTimes %v \n", err)
-		}
-		log.Printf("GreetingManyTimes %s \n", msg.Result)
-	}
-}
+//func DoGreetManyTimes(c pb.GreetServiceClient) {
+//	log.Println("DoGreetManyTimes was invoked!")
+//	req := &pb.GreetRequest{FirstName: "Shamim"}
+//
+//	stream, err := c.GreetManyTimes(context.Background(), req)
+//
+//	if err != nil {
+//		log.Fatal("Error while calling GreetManyTimes %v \n", err)
+//	}
+//
+//	for {
+//		msg, err := stream.Recv()
+//		if err == io.EOF {
+//			break
+//		}
+//
+//		if err != nil {
+//			log.Fatal("Error while getting data from GreetManyTimes %v \n", err)
+//		}
+//		log.Printf("GreetingManyTimes %s \n", msg.Result)
+//	}
+//}
 
 func main() {
 	fmt.Println("Client...")
@@ -56,6 +56,7 @@ func main() {
 	defer conn.Close()
 
 	greetClient := pb.NewGreetServiceClient(conn)
+	// doGreet(greetClient)
 	DoGreetManyTimes(greetClient)
 
 }
