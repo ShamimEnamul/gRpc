@@ -19,5 +19,6 @@ func main() {
 	//greetClient := pb.NewGreetServiceClient(conn)
 	//doGreet(greetClient)
 	calculatorClient := pb.NewCalculatorServiceClient(conn)
-	Calculate(calculatorClient)
+	//Calculate(calculatorClient)
+	Primes(calculatorClient)
 }
